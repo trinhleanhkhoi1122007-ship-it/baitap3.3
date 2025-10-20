@@ -1,0 +1,101 @@
+<!DOCTYPE html> 
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quản lý sản phẩm</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body onload="show_product()">
+  <div class="container bg-light p-4 rounded shadow mt-4">
+    <h4 class="mb-4 text-center">Add New Product</h4>
+
+    <div class="input-group mb-4">
+      <input id="add_product" type="text" class="form-control" placeholder="New Product">
+      <button class="btn btn-primary" onclick="add_product()">Add</button>
+    </div>
+
+    <h4 class="mb-3">Display All Product</h4>
+
+    <table class="table table-bordered align-middle text-center">
+      <thead class="table-secondary">
+        <tr>
+          <th>Product Name</th>
+          <th></th>
+          <th></th>
+          <td class="count" id="count"></td>
+        </tr>
+      </thead>
+      <tbody id="show_product_list">
+      </tbody>
+    </table>
+    <p id="count" class="text-end text-muted"></p>
+  </div>
+
+  <script>
+    let product_list = [
+      'Sony Xperia',
+      'Samsung Galaxy',
+      'Nokia 6',
+      'Xiaomi Redmi Note 4',
+      'Apple iPhone 6S',
+      'Xiaomi Mi 5s Plus',
+      'Apple iPhone 8 Plus',
+      'Fujitsu F-04E',
+      'Oppo A71'
+    ];
+
+    var table = '';
+    table += `
+      <tr>
+        <th>Product Name</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+    `;
+
+    function show_product() {
+      let html = '';
+      for (var i = 0; i < product_list.length; i++) {
+        html += `
+          <tr>
+            <td>${product_list[i]}</td>
+            <td><button class="btn btn-warning btn-sm" onclick="edit_product(${i})">Edit</button></td>
+            <td><button class="btn btn-danger btn-sm" onclick="delete_product(${i})">Delete</button></td>
+          </tr>
+        `;
+      }
+      document.getElementById('show_product_list').innerHTML = html;
+      document.getElementById('count').innerText = product_list.length + ' products';
+    }
+
+    function add_product() {
+      var newProduct = document.getElementById('add_product').value.trim();
+      if (newProduct === '') {
+        alert('Nhập vào tên sản phẩm');
+        return;
+      }
+      product_list.push(newProduct);
+      document.getElementById('add_product').value = '';
+      show_product();
+    }
+
+    function delete_product(index) {
+      if (confirm('Bạn có chắc muốn xóa sản phẩm này?')) {
+        product_list.splice(index, 1);
+        show_product();
+      }
+    }
+
+    function edit_product(index) {
+      var newName = prompt('Nhập tên sản phẩm:', product_list[index]);
+      if (newName && newName.trim() !== '') {
+        product_list[index] = newName.trim();
+        show_product();
+      }
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
